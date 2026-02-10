@@ -192,3 +192,14 @@ parquet_file = data_dir / "data.parquet"
 import os
 parquet_file = os.path.join(temp_dir, "data.parquet")
 ```
+
+
+## marimo check 
+
+When working on a notebook it is important to check if the notebook can run. That's why marimo provides a `check` command that acts as a linter to find common mistakes. 
+
+```bash
+uvx marimo check <notebook.py>
+```
+
+Make sure these are checked before handing a notebook back to the user.
