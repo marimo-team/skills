@@ -25,7 +25,7 @@ npx skills add marimo-team/skills
 The benefit of `npx skills` is that it supports [many many agents](https://github.com/vercel-labs/skills?tab=readme-ov-file#supported-agents). So you can do things like:
 
 ```
-npx skills add --agent claude-code marimo-team/skills
-npx skills add --agent opencode marimo-team/skills
+npx skills add marimo-team/skills --agent claude-code 
+npx skills add marimo-team/skills --agent opencode 
 ```
 
