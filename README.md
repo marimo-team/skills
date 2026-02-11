@@ -19,13 +19,13 @@ We do our best to keep these skills up to date with the latest version of marimo
 You can register this repository as a Claude Code Plugin marketplace by running the following command:
 
 ```
-npx skills marimo-team/skills
+npx skills add marimo-team/skills
 ```
 
 The benefit of `npx skills` is that it supports [many many agents](https://github.com/vercel-labs/skills?tab=readme-ov-file#supported-agents). So you can do things like:
 
 ```
-npx skills --agent claude-code marimo-team/skills
-npx skills --agent opencode marimo-team/skills
+npx skills add --agent claude-code marimo-team/skills
+npx skills add --agent opencode marimo-team/skills
 ```
 
