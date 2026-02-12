@@ -203,3 +203,7 @@ uvx marimo check <notebook.py>
 ```
 
 Make sure these are checked before handing a notebook back to the user.
+
+## Additional resources
+
+- For SQL use in marimo check, see [SQL.md](references/SQL.md)
