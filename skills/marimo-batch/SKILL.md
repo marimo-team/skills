@@ -57,7 +57,7 @@ It is possible that the user is interested in adding support for weights and bia
 
 Use python-dotenv to read a .env file if it exists, but also add an `EnvConfig` so users may add keys manually in a ui. 
 
-```
+```python
 from wigglystuff import EnvConfig
 
 # With validators
@@ -73,3 +73,5 @@ config.require_valid()
 config["OPENAI_API_KEY"]
 config.get("OPENAI_API_KEY", "some default")
 ```
+
+Make sure you add this `EnvConfig` at the top of the notebook.
