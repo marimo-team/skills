@@ -52,3 +52,24 @@ The user wants to be able to run a notebook using this pattern, so make sure you
 ## Weights and Biases
 
 It is possible that the user is interested in adding support for weights and biases. If that is the case, make sure these ModelParams are logged. 
+
+## ENV KEYS 
+
+Use python-dotenv to read a .env file if it exists, but also add an `EnvConfig` so users may add keys manually in a ui. 
+
+```
+from wigglystuff import EnvConfig
+
+# With validators
+config = EnvConfig({
+    "OPENAI_API_KEY": lambda k: openai.Client(api_key=k).models.list(),
+    "WANDB_API_KEY": lambda k: wandb.login(key=k, verify=True)
+})
+
+# Block until valid, useful in cell that needs the key
+config.require_valid()
+
+# Access values
+config["OPENAI_API_KEY"]
+config.get("OPENAI_API_KEY", "some default")
+```
