@@ -204,6 +204,14 @@ uvx marimo check <notebook.py>
 
 Make sure these are checked before handing a notebook back to the user.
 
+## api docs
+
+If the user specifically wants you to use a marimo function, you can locally check the docs via: 
+
+```
+uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"
+```
+
 ## Additional resources
 
 - For SQL use in marimo check, see [SQL.md](references/SQL.md)
