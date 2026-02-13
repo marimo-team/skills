@@ -45,7 +45,7 @@ The user can now run this from the command line via:
 uv run notebook.py --sample-size 4096 --learning-rate 0.005
 ```
 
-This is the best of both worlds, you can use the UI to test and iterate, and then use the CLI to run the batch job.
+This is the best of both worlds, you can use the UI to test and iterate, and then use the CLI to run the batch job. Another benefit is that you can run the notebook with settings to make it run quickly to see if there are any bugs in the notebook. 
 
 The user wants to be able to run a notebook using this pattern, so make sure you ask the user which parameters they want to make configurable via the CLI and the proceed to make the changes to the notebook. Make sure you verify the changes with the user before making them. 
 
