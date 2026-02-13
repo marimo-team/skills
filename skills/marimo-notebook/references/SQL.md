@@ -48,9 +48,9 @@ import duckdb
 duckdb_conn = duckdb.connect("file.db", read_only=True)
 ```
 
-## PyIceBerg 
+## PyIceberg 
 
-marimo supports data catalogues as well.
+marimo supports data catalogs as well.
 
 ```python
 from pyiceberg.catalog.rest import RestCatalog
