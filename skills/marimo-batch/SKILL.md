@@ -51,11 +51,11 @@ The user wants to be able to run a notebook using this pattern, so make sure you
 
 ## Weights and Biases
 
-It is possible that the user is interested in adding support for weights and biases. If that is the case, make sure these ModelParams are logged. 
+It is possible that the user is interested in adding support for weights and biases. Make sure you confirm if this is the case yes/no. If that is the case, make sure these ModelParams are logged. You also want to make sure that the `wandb_project` and `wandb_run_name` are part of the ModelParams is the user wants to go down this route. 
 
-## ENV KEYS 
+## Environment Variables
 
-Use python-dotenv to read a .env file if it exists, but also add an `EnvConfig` so users may add keys manually in a ui. 
+You may need to read environment variables for the job. Use python-dotenv to read a .env file if it exists, but also add an `EnvConfig` so users may add keys manually in a ui. 
 
 ```python
 from wigglystuff import EnvConfig
@@ -74,4 +74,4 @@ config["OPENAI_API_KEY"]
 config.get("OPENAI_API_KEY", "some default")
 ```
 
-Make sure you add this `EnvConfig` at the top of the notebook.
+Make sure you add this `EnvConfig` at the top of the notebook. 
