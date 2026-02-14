@@ -214,4 +214,5 @@ uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"
 
 ## Additional resources
 
-- For SQL use in marimo check, see [SQL.md](references/SQL.md)
+- For SQL use in marimo see [SQL.md](references/SQL.md)
+- For UI elements in marimo [UI.md](references/UI.md)
