@@ -4,20 +4,23 @@ This repository contains
 [skills](https://support.claude.com/en/articles/12512176-what-are-skills) for
 use with marimo.
 
-## Quickstart
-
 Install these skills with:
 
 ```
 npx skills add marimo-team/skills
 ```
 
-The benefit of `npx skills` is that it supports [many many agents](https://github.com/vercel-labs/skills?tab=readme-ov-file#supported-agents). So you can do things like:
+The benefit of `npx skills` is that it supports [many agents](https://github.com/vercel-labs/skills?tab=readme-ov-file#supported-agents). So you can do things like:
 
 ```
 npx skills add marimo-team/skills --agent claude-code
 npx skills add marimo-team/skills --agent opencode
 ```
+
+We welcome feedback: [issues](https://github.com/marimo-team/skills/issues) and
+pull requests are welcome. You can also join our
+[Discord](https://discord.com/invite/QdpFxJWhyt) or
+[Reddit](https://www.reddit.com/r/marimo_notebook/) to get in touch.
 
 ## What are skills?
 
