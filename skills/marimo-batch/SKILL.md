@@ -53,6 +53,8 @@ The user wants to be able to run a notebook using this pattern, so make sure you
 
 It is possible that the user is interested in adding support for weights and biases. Make sure you confirm if this is the case yes/no. If that is the case, make sure these ModelParams are logged. You also want to make sure that the `wandb_project` and `wandb_run_name` are part of the ModelParams is the user wants to go down this route. 
 
+If the user is keen to start a training job for ML, make sure you use [this starting point](references/starting-point.py). Make sure you keep the columns intact in this notebook! 
+
 ## Environment Variables
 
 You may need to read environment variables for the job. Use python-dotenv to read a .env file if it exists, but also add an `EnvConfig` so users may add keys manually in a ui. 
