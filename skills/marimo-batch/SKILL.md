@@ -75,3 +75,14 @@ config.get("OPENAI_API_KEY", "some default")
 ```
 
 Make sure you add this `EnvConfig` at the top of the notebook. 
+
+## Columns 
+
+It can be common for larger marimo notebooks to use the columns feature to make it easy to navigate. If that is the case, you must keep these columns intact! 
+
+```python
+@app.cell(column=0, hide_code=True)
+def _(mo):
+    mo.md(r"""demo""")
+```
+
