@@ -25,8 +25,6 @@ marimo has a rich set of UI components.
 
 However, the user may also want to use other components. Popular alternatives include the `ScatterWidget` from the `drawdata` library, `moutils`, and `wigglystuff`. 
 
-The wigglystuff API can be explored [here](https://koaning.github.io/wigglystuff/llms.txt). 
-
 For custom classes and static HTML representations you can also use the `_display_` method. 
 
 ```python
