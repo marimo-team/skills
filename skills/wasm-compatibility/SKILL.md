@@ -26,7 +26,24 @@ Collect every package the notebook depends on from **both** sources:
   # ]
   # ///
   ```
-- **Import statements** — scan all cells for `import foo` and `from foo import bar`. Map submodules to their top-level distribution name (e.g. `from sklearn.cluster import KMeans` → `scikit-learn`; `import cv2` → `opencv-python`).
+- **Import statements** — scan all cells for `import foo` and `from foo import bar`. Map import names to their PyPI distribution name using this table:
+
+  | Import name | Distribution name |
+  |---|---|
+  | `sklearn` | `scikit-learn` |
+  | `skimage` | `scikit-image` |
+  | `cv2` | `opencv-python` |
+  | `PIL` | `Pillow` |
+  | `bs4` | `beautifulsoup4` |
+  | `yaml` | `pyyaml` |
+  | `dateutil` | `python-dateutil` |
+  | `attr` / `attrs` | `attrs` |
+  | `gi` | `PyGObject` |
+  | `serial` | `pyserial` |
+  | `usb` | `pyusb` |
+  | `wx` | `wxPython` |
+
+  For most other packages, the import name matches the distribution name.
 
 ### 3. Check each package against Pyodide
 
@@ -35,7 +52,7 @@ For each dependency, determine if it can run in WASM:
 1. **Is it in the Python standard library?** Most stdlib modules work, but these do **not**:
    - `multiprocessing` — browser sandbox has no process spawning
    - `subprocess` — same reason
-   - `threading` — limited; no real threads (may improve in future)
+   - `threading` — emulated, no real parallelism (WARN, not a hard fail)
    - `sqlite3` — use `apsw` instead (available in Pyodide)
    - `pdb` — not supported
    - `tkinter` — no GUI toolkit in browser
@@ -43,7 +60,12 @@ For each dependency, determine if it can run in WASM:
 
 2. **Is it a Pyodide built-in package?** See [pyodide-packages.md](references/pyodide-packages.md) for the full list. These work out of the box.
 
-3. **Is it a pure-Python package?** Packages with only `.py` files (no compiled C/Rust extensions) can be installed at runtime via `micropip` and will work.
+3. **Is it a pure-Python package?** Packages with only `.py` files (no compiled C/Rust extensions) can be installed at runtime via `micropip` and will work. To check: look for a `py3-none-any.whl` wheel on PyPI (e.g. visit `https://pypi.org/project/<package>/#files`). If the only wheels are platform-specific (e.g. `cp312-cp312-manylinux`), the package has native extensions and likely won't work.
+
+   Common pure-Python packages that work (not in Pyodide built-ins but installable via micropip):
+   - `plotly`, `seaborn`, `humanize`, `pendulum`, `arrow`, `tabulate`
+   - `dataclasses-json`, `marshmallow`, `cattrs`, `pydantic` (built-in)
+   - `httpx` (built-in), `tenacity`, `backoff`, `wrapt` (built-in)
 
 4. **Does it have C/native extensions not built for Pyodide?** These will **not** work. Common culprits:
    - `torch` / `pytorch`
@@ -63,8 +85,8 @@ Scan the notebook code for patterns that won't work in WASM:
 |---|---|---|
 | `subprocess.run(...)`, `os.system(...)`, `os.popen(...)` | No process spawning in browser | Remove or gate behind a non-WASM check |
 | `multiprocessing.Pool(...)`, `ProcessPoolExecutor` | No process forking | Use single-threaded approach |
-| `threading.Thread(...)`, `ThreadPoolExecutor` | Limited thread support | Use `asyncio` or single-threaded approach |
-| `open("/some/local/path")` | No real filesystem; only in-memory fs | Fetch data via URL or embed in notebook |
+| `threading.Thread(...)`, `ThreadPoolExecutor` | Emulated threads, no real parallelism | WARN only — works but no speedup; use `asyncio` for I/O |
+| `open("/absolute/path/...")`, hard-coded local file paths | No real filesystem; only in-memory fs | Fetch data via URL (`httpx`, `urllib`) or embed in notebook |
 | `sqlite3.connect(...)` | stdlib sqlite3 unavailable | Use `apsw` or `duckdb` |
 | `pdb.set_trace()`, `breakpoint()` | No debugger in WASM | Remove breakpoints |
 | Reading env vars (`os.environ[...]`, `os.getenv(...)`) | Environment variables not available in browser | Use `mo.ui.text` for user input or hardcode defaults |

@@ -3,6 +3,9 @@
 These packages are pre-built for Pyodide and available in WASM environments.
 Any package **not** on this list must have a pure Python wheel on PyPI to work.
 
+> **Note:** This list was snapshotted on 2026-02-26 from Pyodide's docs.
+> For the latest list, check https://pyodide.org/en/stable/usage/packages-in-pyodide.html
+
 affine, aiohappyeyeballs, aiohttp, aiosignal, altair, annotated-types, anyio,
 apsw, argon2-cffi, argon2-cffi-bindings, asciitree, astropy, astropy_iers_data,
 asttokens, async-timeout, atomicwrites, attrs, audioop-lts, autograd,
@@ -52,18 +55,19 @@ zfpy, zstandard
 - polars
 - micropip (for installing additional pure-Python packages at runtime)
 
-## Common packages that do NOT work in WASM
+## Common third-party packages that do NOT work in WASM
 
-These popular packages have C extensions not built for Pyodide:
+These popular packages have C/native extensions not built for Pyodide:
 
-- **torch / pytorch** - No WASM build
-- **tensorflow** - No WASM build
-- **jax** - No WASM build
-- **psycopg2** - Requires libpq (use pure-Python alternatives)
-- **mysqlclient** - Requires libmysqlclient
-- **uvloop** - Requires libuv
-- **grpcio** - Requires C extensions
-- **psutil** - OS-level system calls
-- **multiprocessing** - Not supported in browser sandbox
-- **subprocess** - Cannot spawn processes in browser
-- **sqlite3** (stdlib) - Use `apsw` instead (which is available in Pyodide)
+| Package | Why | Alternative |
+|---|---|---|
+| torch / pytorch | C++/CUDA extensions | None for WASM |
+| tensorflow | C++ extensions | None for WASM |
+| jax / jaxlib | C++ extensions | None for WASM |
+| psycopg2 | Requires libpq | `psycopg[binary]` or use `duckdb` |
+| mysqlclient | Requires libmysqlclient | `pymysql` (pure Python) |
+| uvloop | Requires libuv | `asyncio` (default loop) |
+| grpcio | C extensions | `grpclib` (pure Python) |
+| psutil | OS-level syscalls | None for WASM |
+| gevent | C extensions | `asyncio` |
+| celery | Requires message broker | Not applicable in browser |
