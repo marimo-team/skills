@@ -58,7 +58,7 @@ from pyiceberg.catalog.rest import RestCatalog
 catalog = RestCatalog(
     name="catalog",
     warehouse="1234567890",
-    uri="https://my-catalog.com",
+    uri="https://example.com",
     token="my-token",
 )
 ```
