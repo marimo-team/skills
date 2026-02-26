@@ -93,7 +93,15 @@ Scan the notebook code for patterns that won't work in WASM:
 | `Path.home()`, `Path.cwd()` with real file expectations | Virtual filesystem only | Use URLs or embedded data |
 | Large dataset loads (>100 MB) | 2 GB total memory cap | Use smaller samples or remote APIs |
 
-### 5. Produce the report
+### 5. Check PEP 723 metadata
+
+WASM notebooks should list all dependencies in the PEP 723 `# /// script` block so they are automatically installed when the notebook starts. Check for these issues:
+
+- **Missing metadata:** If the notebook has no `# /// script` block, emit a WARN recommending one. Listing dependencies ensures they are auto-installed when the notebook starts in WASM — without it, users may see import errors.
+- **Missing packages:** If a package is imported but not listed in the dependencies, emit a WARN suggesting it be added.
+Note: version pins and lower bounds in PEP 723 metadata are fine — marimo strips version constraints when running in WASM.
+
+### 6. Produce the report
 
 Output a clear, actionable report with these sections:
 
