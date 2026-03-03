@@ -179,7 +179,7 @@ counter.count = slider.value
 
 For ipywidgets with **no marimo equivalent** (marked "—" above), check if the widget is an anywidget or has an anywidget-compatible version. If so, wrap it with `mo.ui.anywidget()`.
 
-If it is not an anywidget, let the user know they should check whether it's a candidate for the [anywidget spec](https://anywidget.dev) — most ipywidgets can be ported.
+If it is not an anywidget, let the user know they should check whether it's a candidate for the [anywidget spec](https://anywidget.dev) — most ipywidgets can be ported. For building custom anywidgets from scratch, invoke the `anywidget-generator` skill.
 
 ### Wrapping an existing anywidget
 
