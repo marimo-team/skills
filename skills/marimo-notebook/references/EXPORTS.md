@@ -11,21 +11,14 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  html       Run a notebook and export it as an
-             HTML file.
-  html-wasm  Export a notebook as a WASM-
-             powered...
-  ipynb      Export a marimo notebook as a
-             Jupyter...
-  md         Export a marimo notebook as a code
-             fenced...
-  pdf        Export a marimo notebook as a PDF
-             file.
-  script     Export a marimo notebook as a flat
-             script,...
-  session    Execute a notebook or directory of...
-  thumbnail  Generate OpenGraph thumbnails for
-             notebooks.
+  html       Run a notebook and export it as an HTML file.
+  html-wasm  Export a notebook as a WASM- powered marimo notebook. 
+  ipynb      Export a marimo notebook as a Jupyter notebook
+  md         Export a marimo notebook as a code fenced markdown file
+  pdf        Export a marimo notebook as a PDF file.
+  script     Export a marimo notebook as a flat script
+  session    Execute a notebook or directory of notebooks and export session snapshots.
+  thumbnail  Generate OpenGraph thumbnails for notebooks.
 ```
 
 You can learn more about each option by calling the command with the `--help` flag. 
