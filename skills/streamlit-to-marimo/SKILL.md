@@ -11,7 +11,7 @@ For general marimo notebook conventions (cell structure, PEP 723 metadata, outpu
 
 1. **Read the Streamlit app** to understand its widgets, layout, and state management.
 
-2. **Create a new marimo notebook** following the `marimo-notebook` skill conventions. Add all dependencies the Streamlit app uses (pandas, plotly, altair, etc.) — but replace `streamlit` with `marimo`.
+2. **Create a new marimo notebook** following the `marimo-notebook` skill conventions. Add all dependencies the Streamlit app uses (pandas, plotly, altair, etc.) — but replace `streamlit` with `marimo`. You should not overwrite the original file. 
 
 3. **Map Streamlit components to marimo equivalents** using the reference tables below. Key principles:
    - UI elements are **assigned to variables** and their current value is accessed via `.value`.
