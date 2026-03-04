@@ -118,3 +118,7 @@ Marimo offers two approaches for multi-page Streamlit apps:
 ### Deploying 
 
 marimo features molab to host marimo apps instead of the streamlit community cloud. You can generate an "open in molab" button via the `add-molab-badge` skill. 
+
+### Custom components 
+
+streamlit has a feature for custom components. These are not compatible with marimo. You might be able to generate an equivalent anywidget via the `marimo-anywidget` skill but discuss this with the enduser before working on that. 
