@@ -1,6 +1,6 @@
 ---
 name: streamlit-to-marimo
-description: Convert a Streamlit app to a marimo notebook (.py).
+description: Convert a Streamlit app to a marimo notebook
 ---
 
 # Converting Streamlit Apps to Marimo
