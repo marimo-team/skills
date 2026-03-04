@@ -114,3 +114,7 @@ Marimo offers two approaches for multi-page Streamlit apps:
 
 - **Single notebook with routing**: Use `mo.routes` with `mo.nav_menu` or `mo.sidebar` to build multiple "pages" (tabs/routes) inside one notebook.
 - **Multiple notebooks as a gallery**: Run a folder of notebooks with `marimo run folder/` to serve them as a gallery with navigation.
+
+### Deploying 
+
+marimo features molab to host marimo apps instead of the streamlit community cloud. You can generate an "open in molab" button via the `add-molab-badge` skill. 
