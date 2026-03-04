@@ -35,7 +35,7 @@ Read the generated `.py` file and apply the following improvements:
 - Drop leftover Jupyter artifacts like `display()` calls, or `%magic` commands that don't apply in marimo.
 - Make sure the final expression of each cell is the value to render. Indented or conditional expressions won't display.
 - If the original notebook requires environment variables via an input, consider adding the `EnvConfig` widget from wigglystuff. Details can be found [here](https://koaning.github.io/wigglystuff/reference/env-config.md).
-- If the original notebook uses ipywidgets, replace them with corresponding ui from marimo. A slider, for example, would be replaced with `mo.ui.slider()`.
+- If the original notebook uses ipywidgets, see `references/widgets.md` for a full mapping of ipywidgets to marimo equivalents, including patterns for callbacks, linking, and anywidget integration.
 - If the notebook contains LaTeX, see `references/latex.md` for how to port MathJax syntax to KaTeX (which marimo uses).
 
 4. **Run `marimo check` again** after your edits to confirm nothing was broken.
