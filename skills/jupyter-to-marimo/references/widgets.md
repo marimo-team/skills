@@ -4,63 +4,63 @@ Jupyter uses **ipywidgets** with imperative callbacks (`observe`, `link`, `jslin
 
 ## Widget mapping
 
-| ipywidget              | marimo                                      | Notes                                     |
-| ---------------------- | ------------------------------------------- | ----------------------------------------- |
-| `IntSlider`            | `mo.ui.slider(start, stop, step=1)`         |                                           |
-| `FloatSlider`          | `mo.ui.slider(start, stop, step=0.1)`       |                                           |
-| `FloatLogSlider`       | `mo.ui.slider(steps=np.logspace(...))`      | Use `steps` for non-linear                |
-| `IntRangeSlider`       | `mo.ui.range_slider(start, stop)`           |                                           |
-| `FloatRangeSlider`     | `mo.ui.range_slider(start, stop, step=0.1)` |                                           |
-| `IntText`              | `mo.ui.number()`                            |                                           |
-| `FloatText`            | `mo.ui.number()`                            |                                           |
-| `BoundedIntText`       | `mo.ui.number(start, stop)`                 |                                           |
-| `BoundedFloatText`     | `mo.ui.number(start, stop)`                 |                                           |
-| `IntProgress`          | `mo.status.progress_bar(...)`               | Not a UI element; display only            |
-| `FloatProgress`        | `mo.status.progress_bar(...)`               | Not a UI element; display only            |
-| `Checkbox`             | `mo.ui.checkbox()`                          |                                           |
-| `ToggleButton`         | `mo.ui.switch()`                            |                                           |
-| `Valid`                | `mo.md("✓" if valid else "✗")`              | No direct equivalent                      |
-| `Dropdown`             | `mo.ui.dropdown(options)`                   |                                           |
-| `RadioButtons`         | `mo.ui.radio(options)`                      |                                           |
-| `Select`               | `mo.ui.dropdown(options)`                   |                                           |
-| `SelectMultiple`       | `mo.ui.multiselect(options)`                |                                           |
-| `SelectionSlider`      | `mo.ui.slider(steps=options)`               | Use `steps` param                         |
-| `SelectionRangeSlider` | `mo.ui.range_slider(steps=options)`         | Use `steps` param                         |
-| `ToggleButtons`        | `mo.ui.radio(options, inline=True)`         |                                           |
-| `Text`                 | `mo.ui.text()`                              |                                           |
-| `Textarea`             | `mo.ui.text_area()`                         |                                           |
-| `Combobox`             | `mo.ui.dropdown(options, searchable=True)`  | Closest match                             |
-| `Password`             | `mo.ui.text(kind="password")`               |                                           |
-| `Label`                | `mo.md("text")`                             |                                           |
-| `HTML`                 | `mo.Html("...")`                            |                                           |
-| `HTMLMath`             | `mo.md(r"$...$")`                           | See `references/latex.md`                 |
-| `Image`                | `mo.image(src)`                             |                                           |
-| `Video`                | `mo.video(src)`                             |                                           |
-| `Audio`                | `mo.audio(src)`                             |                                           |
-| `DatePicker`           | `mo.ui.date()`                              |                                           |
-| `TimePicker`           | —                                           | No equivalent; use anywidget              |
-| `DatetimePicker`       | `mo.ui.datetime()`                          |                                           |
-| `NaiveDatetimePicker`  | `mo.ui.datetime()`                          |                                           |
-| `ColorPicker`          | —                                           | No equivalent; use anywidget              |
-| `FileUpload`           | `mo.ui.file()`                              |                                           |
-| `Button`               | `mo.ui.button()`                            | Use `on_click` or `value` counter pattern |
-| `Output`               | Cell output / `mo.output.replace()`         | See "Output widget" below                 |
-| `Play`                 | `mo.ui.refresh()`                           | Periodic refresh, not step-based          |
-| `TagsInput`            | —                                           | No equivalent; use anywidget              |
-| `ColorsInput`          | —                                           | No equivalent; use anywidget              |
-| `FloatsInput`          | —                                           | No equivalent; use anywidget              |
-| `IntsInput`            | —                                           | No equivalent; use anywidget              |
-| `HBox`                 | `mo.hstack([...])`                          |                                           |
-| `VBox`                 | `mo.vstack([...])`                          |                                           |
-| `Box`                  | `mo.hstack([...])` or `mo.vstack([...])`    |                                           |
-| `GridBox`              | `mo.hstack([...], widths="equal")`          | Or use CSS grid                           |
-| `Accordion`            | `mo.accordion({...})`                       |                                           |
-| `Tab`                  | `mo.ui.tabs({...})`                         |                                           |
-| `Stack`                | `mo.ui.tabs({...})` or `mo.carousel([...])` | Shows one child at a time                 |
-| `AppLayout`            | `mo.sidebar(...)` + stacks                  | Compose with layout helpers               |
-| `TwoByTwoLayout`       | Nested `mo.vstack`/`mo.hstack`              |                                           |
-| `GridspecLayout`       | CSS grid via `mo.Html`                      |                                           |
-| `Controller`           | —                                           | No equivalent; use anywidget              |
+| ipywidget | marimo | Notes |
+| --- | --- | --- |
+| `IntSlider` | `mo.ui.slider(start, stop, step=1)` | |
+| `FloatSlider` | `mo.ui.slider(start, stop, step=0.1)` | |
+| `FloatLogSlider` | `mo.ui.slider(steps=np.logspace(...))` | Use `steps` for non-linear |
+| `IntRangeSlider` | `mo.ui.range_slider(start, stop)` | |
+| `FloatRangeSlider` | `mo.ui.range_slider(start, stop, step=0.1)` | |
+| `IntText` | `mo.ui.number()` | |
+| `FloatText` | `mo.ui.number()` | |
+| `BoundedIntText` | `mo.ui.number(start, stop)` | |
+| `BoundedFloatText` | `mo.ui.number(start, stop)` | |
+| `IntProgress` | `mo.status.progress_bar(...)` | Not a UI element; display only |
+| `FloatProgress` | `mo.status.progress_bar(...)` | Not a UI element; display only |
+| `Checkbox` | `mo.ui.checkbox()` | |
+| `ToggleButton` | `mo.ui.switch()` | |
+| `Valid` | `mo.md("✓" if valid else "✗")` | No direct equivalent |
+| `Dropdown` | `mo.ui.dropdown(options)` | |
+| `RadioButtons` | `mo.ui.radio(options)` | |
+| `Select` | `mo.ui.dropdown(options)` | |
+| `SelectMultiple` | `mo.ui.multiselect(options)` | |
+| `SelectionSlider` | `mo.ui.slider(steps=options)` | Use `steps` param |
+| `SelectionRangeSlider` | `mo.ui.range_slider(steps=options)` | Use `steps` param |
+| `ToggleButtons` | `mo.ui.radio(options, inline=True)` | |
+| `Text` | `mo.ui.text()` | |
+| `Textarea` | `mo.ui.text_area()` | |
+| `Combobox` | `mo.ui.dropdown(options, searchable=True)` | Closest match |
+| `Password` | `mo.ui.text(kind="password")` | |
+| `Label` | `mo.md("text")` | |
+| `HTML` | `mo.Html("...")` | |
+| `HTMLMath` | `mo.md(r"$...$")` | See `references/latex.md` |
+| `Image` | `mo.image(src)` | |
+| `Video` | `mo.video(src)` | |
+| `Audio` | `mo.audio(src)` | |
+| `DatePicker` | `mo.ui.date()` | |
+| `TimePicker` | — | No equivalent; use anywidget |
+| `DatetimePicker` | `mo.ui.datetime()` | |
+| `NaiveDatetimePicker` | `mo.ui.datetime()` | |
+| `ColorPicker` | — | No equivalent; use anywidget |
+| `FileUpload` | `mo.ui.file()` | |
+| `Button` | `mo.ui.button()` | Use `on_click` or `value` counter pattern |
+| `Output` | Cell output / `mo.output.replace()` | See "Output widget" below |
+| `Play` | `mo.ui.refresh()` | Periodic refresh, not step-based |
+| `TagsInput` | — | No equivalent; use anywidget |
+| `ColorsInput` | — | No equivalent; use anywidget |
+| `FloatsInput` | — | No equivalent; use anywidget |
+| `IntsInput` | — | No equivalent; use anywidget |
+| `HBox` | `mo.hstack([...])` | |
+| `VBox` | `mo.vstack([...])` | |
+| `Box` | `mo.hstack([...])` or `mo.vstack([...])` | |
+| `GridBox` | `mo.hstack([...], widths="equal")` | Or use CSS grid |
+| `Accordion` | `mo.accordion({...})` | |
+| `Tab` | `mo.ui.tabs({...})` | |
+| `Stack` | `mo.ui.tabs({...})` or `mo.carousel([...])` | Shows one child at a time |
+| `AppLayout` | `mo.sidebar(...)` + stacks | Compose with layout helpers |
+| `TwoByTwoLayout` | Nested `mo.vstack`/`mo.hstack` | |
+| `GridspecLayout` | CSS grid via `mo.Html` | |
+| `Controller` | — | No equivalent; use anywidget |
 
 ## Replacing `interact` / `interactive`
 

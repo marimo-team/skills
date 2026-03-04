@@ -13,18 +13,18 @@ mo.md("$\frac{1}{2}$")    # wrong — \f is a form-feed character
 
 ## Jupyter (MathJax) → marimo (KaTeX)
 
-| Category     | Jupyter (MathJax)                               | marimo (KaTeX)                |
-| ------------ | ----------------------------------------------- | ----------------------------- |
-| Text         | `\mbox`, `\bbox`                                | `\text{}`                     |
-| Text style   | `\textsc`, `\textsl`                            | `\text{}`                     |
-| Environments | `\begin{eqnarray}`                              | `\begin{align}`               |
-|              | `\begin{multline}`                              | `\begin{gather}`              |
-| References   | `\label`, `\eqref`, `\ref`                      | `\tag{}` for manual numbering |
-| Arrays       | `\cline`, `\multicolumn`, `\hfill`, `\vline`    | not supported                 |
-| Macros       | `\DeclareMathOperator`                          | `\operatorname{}` inline      |
-|              | `\newenvironment`                               | not supported                 |
-| Spacing      | `\mspace`, `\setlength`, `\strut`, `\rotatebox` | not supported                 |
-| Conditionals | `\if`, `\else`, `\fi`, `\ifx`                   | not supported                 |
+| Category | Jupyter (MathJax) | marimo (KaTeX) |
+| --- | --- | --- |
+| Text | `\mbox`, `\bbox` | `\text{}` |
+| Text style | `\textsc`, `\textsl` | `\text{}` |
+| Environments | `\begin{eqnarray}` | `\begin{align}` |
+| | `\begin{multline}` | `\begin{gather}` |
+| References | `\label`, `\eqref`, `\ref` | `\tag{}` for manual numbering |
+| Arrays | `\cline`, `\multicolumn`, `\hfill`, `\vline` | not supported |
+| Macros | `\DeclareMathOperator` | `\operatorname{}` inline |
+| | `\newenvironment` | not supported |
+| Spacing | `\mspace`, `\setlength`, `\strut`, `\rotatebox` | not supported |
+| Conditionals | `\if`, `\else`, `\fi`, `\ifx` | not supported |
 
 **These DO work** in KaTeX (despite outdated claims): `\newcommand`, `\def`, `\hbox`, `\hskip`, `\cal`, `\pmb`, `\begin{equation}`, `\begin{split}`, `\operatorname*`.
 
