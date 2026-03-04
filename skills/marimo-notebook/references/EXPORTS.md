@@ -70,3 +70,4 @@ These flags work across most export subcommands:
 - `--sandbox` — run in an isolated `uv` environment
 - `-f`, `--force` — overwrite if output file already exists
 - `--` — pass CLI arguments to the notebook, e.g. `uvx marimo export html notebook.py -o out.html -- --arg value`
+- `-y` automatic yes to prompts on the terminal `uvx marimo -y CMD ...` 
