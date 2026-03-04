@@ -209,3 +209,4 @@ uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"
 - For exposing functions/classes as top level imports [TOP-LEVEL-IMPORTS.md](references/TOP-LEVEL-IMPORTS.md)
 - For exporting notebooks (PDF, HTML, markdown, etc.) [EXPORTS.md](references/EXPORTS.md)
 - For state management and reactivity [STATE.md](references/STATE.md)
+- For deployment of marimo notebooks [DEPLOYMENT.md](references/DEPLOYMENT.md)
