@@ -83,6 +83,10 @@ def _(is_script_mode, train_button, lr_slider, run_training, X_data, y_data):
     return (results,)
 ```
 
+## State and Reactivity
+
+Variables between cells define the reactivity of the notebook for 99% of the use-cases out there. No special state management needed. Don't mutate objects across cells (e.g., `my_list.append()`); create new objects instead. Avoid `mo.state()` unless you need bidirectional UI sync or accumulated callback state. See [STATE.md](references/STATE.md) for details.
+
 ## Don't Guard Cells with `if` Statements
 
 Marimo's reactivity means cells only run when their dependencies are ready. Don't add unnecessary guards:
@@ -217,3 +221,4 @@ uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"
 - For SQL use in marimo see [SQL.md](references/SQL.md)
 - For UI elements in marimo [UI.md](references/UI.md)
 - For exposing functions/classes as top level imports [TOP-LEVEL-IMPORTS.md](references/TOP-LEVEL-IMPORTS.md)
+- For state management and reactivity [STATE.md](references/STATE.md)
