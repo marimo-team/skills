@@ -182,22 +182,6 @@ for _name, _model in items:
 # ///
 ```
 
-## Prefer pathlib over os.path
-
-Use `pathlib.Path` for file path operations instead of `os.path`:
-
-```python
-# GOOD - use pathlib
-from pathlib import Path
-data_dir = Path(tempfile.mkdtemp())
-parquet_file = data_dir / "data.parquet"
-
-# BAD - avoid os.path
-import os
-parquet_file = os.path.join(temp_dir, "data.parquet")
-```
-
-
 ## marimo check 
 
 When working on a notebook it is important to check if the notebook can run. That's why marimo provides a `check` command that acts as a linter to find common mistakes. 
