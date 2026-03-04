@@ -172,6 +172,8 @@ for _name, _model in items:
 
 ## PEP 723 Dependencies
 
+Notebooks created via `marimo edit --sandbox` have these dependencies added to the top of the file automatically but it is a good practice to make sure these exist when creating a notebook too: 
+
 ```python
 # /// script
 # requires-python = ">=3.12"
