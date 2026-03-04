@@ -9,6 +9,23 @@ Add "Open in molab" badge(s) linking to marimo notebooks. The badge can be added
 
 ## Instructions
 
+### 0. Session export for molab
+
+molab previews render much nicer if the github repository has session information around. This can be added via:
+
+```bash
+uvx marimo export session notebook.py
+uvx marimo export session folder/
+```
+
+This executes notebooks and exports their session snapshots, which molab uses to serve pre-rendered notebooks.
+
+Key flags:
+
+- `--sandbox` — run each notebook in an isolated environment using PEP 723 dependencies
+- `--continue-on-error` — keep processing other notebooks if one fails
+- `--force-overwrite` — overwrite all existing snapshots, even if up-to-date
+
 ### 1. Determine the notebook links
 
 The user may provide notebook links in one of two ways:
