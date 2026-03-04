@@ -23,6 +23,62 @@ marimo has a rich set of UI components.
 * `mo.ui.array(elements: list[mo.ui.Element])` - create an array of UI elements
 * `mo.ui.form(element: mo.ui.Element, label='', bordered=True)` - wrap an element in a form
 
+As always, you can learn more about the available inputs to all these components via `uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"` 
+
+## Forms
+
+You can compose multiple UI elements into a single form using `.batch().form()`. The `.batch()` method binds named UI elements into a markdown template, and `.form()` adds a submit button so values are only sent on submit.
+
+```python
+form = (
+    mo.md(
+        """
+        **Choose an option**
+
+        {choice}
+
+        **Enter some text**
+
+        {text}
+
+        **Enable feature**
+
+        {flag}
+        """
+    )
+    .batch(
+        choice=mo.ui.dropdown(options=["A", "B", "C"]),
+        text=mo.ui.text(),
+        flag=mo.ui.checkbox(),
+    )
+    .form(
+        submit_button_label="Submit",
+        show_clear_button=True,   # optional
+        clear_on_submit=False,    # keep values after submit
+    )
+)
+
+form
+```
+
+You can also add validation to a form using the `validate` parameter. Return an error string to block submission, or `None` to allow it.
+
+```python
+group_by_form = mo.ui.dropdown(
+    options=df_columns,
+    label="Select column to filter for duplicate analyzis",
+    allow_select_none=True,
+    value=None,  # start with nothing selected
+    searchable=True,
+).form(
+    submit_button_label="Apply",
+    validate=lambda v: (
+        "Please select a column and press Apply."
+        if v is None else None
+    ),
+)
+```
+
 However, the user may also want to use other components. Popular alternatives include the `ScatterWidget` from the `drawdata` library, `moutils`, and `wigglystuff`. 
 
 For custom classes and static HTML representations you can also use the `_display_` method. 
