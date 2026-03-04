@@ -23,6 +23,8 @@ marimo has a rich set of UI components.
 * `mo.ui.array(elements: list[mo.ui.Element])` - create an array of UI elements
 * `mo.ui.form(element: mo.ui.Element, label='', bordered=True)` - wrap an element in a form
 
+As always, you can learn more about the available inputs to all these components via `uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"` 
+
 ## Forms
 
 You can compose multiple UI elements into a single form using `.batch().form()`. The `.batch()` method binds named UI elements into a markdown template, and `.form()` adds a submit button so values are only sent on submit.
