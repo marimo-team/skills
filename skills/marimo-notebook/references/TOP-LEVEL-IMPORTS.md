@@ -19,10 +19,12 @@ import marimo
 __generated_with = "0.19.11"
 app = marimo.App(width="medium")
 
+# Define setup cell
 with app.setup:
     import numpy as np
 
 
+# Define function cell
 @app.function
 def calculate_statistics(data):
     """Calculate basic statistics for a dataset"""
@@ -43,7 +45,7 @@ if __name__ == "__main__":
     app.run()
 ```
 
-In this example, the setup cell is represented as a context manager `app.setup` and the cell that contains `calculate_statistics` is represented as a function decorator `@app.function`. You can now import `calculate_statistics` from other Python scripts or notebooks.
+In this example, the setup cell is represented as a context manager `app.setup` and the cell that contains `calculate_statistics` is represented as a function decorator `@app.function`. You can now import `calculate_statistics` from other Python scripts or notebooks. There can be no more than one setup cell per notebook.
 
 ```python
 # In another_script.py
