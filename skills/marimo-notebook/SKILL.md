@@ -202,6 +202,22 @@ If the user specifically wants you to use a marimo function, you can locally che
 uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"
 ```
 
+## tests 
+
+By default, marimo discovers and executes tests inside your notebook.
+When the optional `pytest` dependency is present, marimo runs `pytest` on cells that
+consist exclusively of test code - i.e. functions whose names start with `test_`. 
+If the user asks you to add tests, make sure to add the `pytest` dependency is added and that
+there is a cell that contains only test code.
+
+For more information on testing with pytest see [PYTEST.md](references/PYTEST.md)
+
+Once tests are added, you can run pytest from the commandline on the notebook to run pytest. 
+
+```
+pytest <notebook.py>
+```
+
 ## Additional resources
 
 - For SQL use in marimo see [SQL.md](references/SQL.md)
