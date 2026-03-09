@@ -32,6 +32,13 @@ But you can also use the CLI from marimo.
 
 ```python
 if mo.app_meta().mode == "script":
+    if "help" in mo.cli_args() or len(cli_args) == 0:
+        print("Usage: uv run git_archaeology.py --repo <url> [--samples <n>]")
+        print()
+        for name, field in ModelParams.model_fields.items():
+            default = f" (default: {field.default})" if field.default is not None else " (required)"
+            print(f"  --{name:12s} {field.description}{default}")
+        exit()
     model_params = ModelParams(
         **{k.replace("-", "_"): v for k, v in mo.cli_args().items()
     })
