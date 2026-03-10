@@ -5,7 +5,7 @@ There are multiple ways to use SQL in marimo. Under the hood, a SQL cell is just
 def _(df, mo):
     grouped = mo.sql(
         f"""
-        SELECT category, MEAN(value) as mean FROM df GROUP BY category ORDER BY mean;
+        SELECT category, AVG(value) as mean FROM df GROUP BY category ORDER BY mean;
         """,
         output=False
     )
