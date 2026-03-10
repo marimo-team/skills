@@ -282,3 +282,4 @@ pytest <notebook.py>
 - For exporting notebooks (PDF, HTML, markdown, etc.) [EXPORTS.md](references/EXPORTS.md)
 - For state management and reactivity [STATE.md](references/STATE.md)
 - For deployment of marimo notebooks [DEPLOYMENT.md](references/DEPLOYMENT.md)
+- For custom interactive widgets with anywidget [ANYWIDGET.md](references/ANYWIDGET.md)
