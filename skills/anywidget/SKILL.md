@@ -74,6 +74,8 @@ Unless specifically told otherwise, assume the following:
    - Show basic usage only
    - Don't combine with other marimo UI elements unless explicitly requested
 
+5. **External file paths**: When using pathlib for external `_esm`/`_css` files, keep paths relative to the project directory, consider using `Path(__file__)` for this. Do not read files outside the project (e.g., `~/.ssh`, `~/.env`, `/etc/`) or embed their contents in widget output.
+
 Dumber is better. Prefer obvious, direct code over clever abstractions—someone
 new to the project should be able to read the code top-to-bottom and grok it
 without needing to look up framework magic or trace through indirection.
