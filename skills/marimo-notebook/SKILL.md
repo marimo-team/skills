@@ -226,6 +226,8 @@ for _name, _model in items:
     ...
 ```
 
+You have a tendency to overdo `_prefix` variables though. It's a best practice to add these when a conflict is likely to arise, but overdoing it makes the notebook look unpythonic. Please try and avoid that. 
+
 ## PEP 723 Dependencies
 
 Notebooks created via `marimo edit --sandbox` have these dependencies added to the top of the file automatically but it is a good practice to make sure these exist when creating a notebook too: 
