@@ -216,18 +216,6 @@ def _(mo, condition):
     return
 ```
 
-## Marimo Variable Naming
-
-Variables in `for` loops that would conflict across cells need underscore prefix:
-
-```python
-# Use _name, _model to make them cell-private
-for _name, _model in items:
-    ...
-```
-
-You have a tendency to overdo `_prefix` variables. **Hard rule: never underscore-prefix imports.** Only use `_prefix` for loop variables or temporaries that would genuinely collide with another cell's named outputs. Overdoing underscores (e.g. `import re as _re`, `_result = ...`) makes code deeply unpythonic and harder to read for zero benefit. It's better to start without these _prefix variables and to only correct them once the `uvx marimo check` linter fails. 
-
 ## PEP 723 Dependencies
 
 Notebooks created via `marimo edit --sandbox` have these dependencies added to the top of the file automatically but it is a good practice to make sure these exist when creating a notebook too: 
