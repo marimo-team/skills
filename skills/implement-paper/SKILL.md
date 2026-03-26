@@ -1,6 +1,6 @@
 ---
 name: implement-paper
-description: Implement a research paper as an interactive marimo notebook. Starts by understanding what the user wants to explore, fetches the paper via alphaxiv, then builds a focused notebook.
+description: Implement a research paper as an interactive marimo notebook together with the user. Start by understanding what the user wants to explore, fetch the paper via alphaxiv, then build a focused notebook.
 ---
 
 # Implement Paper

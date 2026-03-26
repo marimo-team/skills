@@ -1,9 +1,9 @@
 ---
-name: make-paper-demo
-description: Make a demo of a research paper in a marimo notebook fully automatically without feedback.
+name: auto-paper-demo
+description: Make a demo of a research paper in a marimo notebook fully automatically without extra user input.
 ---
 
-The user wants you to make a demo of a research paper in a marimo notebook fully automatically without feedback. 
+The user wants you to make a demo of a research paper in a marimo notebook fully automatically without extra user input. 
 
 # Fetching Papers via AlphaXiv
 
