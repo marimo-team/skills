@@ -21,6 +21,8 @@ Only move on once you have a clear picture of what to build.
 
 ## Step 2: Fetch the paper
 
+If the user gives you an Arxiv link, you will an efficient way to read the paper. 
+
 See [references/fetching-papers.md](references/fetching-papers.md) for how to retrieve paper content via alphaxiv.org. This avoids reading raw PDFs and gives you structured markdown.
 
 ## Step 3: Plan the notebook
