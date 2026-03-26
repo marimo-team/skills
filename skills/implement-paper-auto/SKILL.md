@@ -1,6 +1,6 @@
 ---
-name: auto-paper-demo
-description: Make a demo of a research paper in a marimo notebook fully automatically without extra user input.
+name: implement-paper-auto
+description: Implement a research paper in a marimo notebook fully automatically without extra user input.
 ---
 
 You need to come up with a compelling story to tell from a paper. Do not ask the user for feedback/input. You need to apply thinking and come up with the best story yourself.
