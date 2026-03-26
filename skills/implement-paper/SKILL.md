@@ -1,6 +1,6 @@
 ---
 name: implement-paper
-description: Implement a research paper as an interactive marimo notebook. Starts by understanding what the user wants to explore, fetches the paper via alphaxiv, then builds a focused notebook.
+description: Implement a research paper as an interactive marimo notebook together with the user. Start by understanding what the user wants to explore, fetch the paper via alphaxiv, then build a focused notebook.
 ---
 
 # Implement Paper
@@ -61,3 +61,5 @@ Key guidelines:
 - **Don't reproduce the entire paper.** Focus on what the user asked about in Step 1.
 - **Iterate visually.** Build up figures incrementally (e.g., show data → show model fit → show residuals) rather than dumping everything into one plot.
 - **If the paper uses heavy notation**, include a small "notation reference" cell with a markdown table mapping symbols to descriptions.
+
+If the user wants a custom anywidget, refer to [references/ANYWIDGET.md](references/ANYWIDGET.md).
