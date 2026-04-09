@@ -238,7 +238,9 @@ When working on a notebook it is important to check if the notebook can run. Tha
 uvx marimo check <notebook.py>
 ```
 
-Make sure these are checked before handing a notebook back to the user.
+Make sure these are checked before handing a notebook back to the user. 
+
+**Important**: you have a tendency to over-do variables with an underscore prefix. You should only apply this to one or two variables at most. Consider creating a new variable instead of prefixing entire cells in marimo. 
 
 ## api docs
 
