@@ -98,3 +98,11 @@ def _(mo):
 ## Compute platform 
 
 When the job is ready to get some serious compute, it is important that we keep good practices in mind. Consider batch sizes for the data set and make sure that there are plenty of logs so the user can spot if issues arise. 
+
+## Grid search
+
+When the user wants to run a hyperparameter sweep, point them to [this grid launcher](references/grid.py). It works with the notebook in `references/starting-point.py` out of the box: it samples random combinations from a search space that matches the notebook's `ModelParams` fields and launches each one as a separate job.
+
+By default the script does a dry run (`uv run grid.py`) so the user can inspect the combinations before spending compute. Pass `--launch` to actually submit jobs. The `--count` and `--seed` flags control how many combinations to sample and the RNG seed.
+
+The reference uses Hugging Face Jobs as the compute provider, but this is just one option. The user can swap it out for Modal, RunPod, or any other provider that can run a uv script.
