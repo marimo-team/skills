@@ -3,7 +3,7 @@
 ## Two Scopes
 
 1. **App config** — per-notebook, stored in the `.py` file header. Configure via the gear icon (top-right): notebook width, title, custom CSS, custom HTML head.
-2. **User config** — global, stored in `$XDG_CONFIG_HOME/marimo/marimo.toml`. Runtime, display, hotkeys, autosave, formatting, server settings.
+2. **User config** — global, typically stored in `~/.config/marimo/marimo.toml`. Runtime, display, hotkeys, autosave, formatting, server settings.
 
 ## Priority (Highest → Lowest)
 
