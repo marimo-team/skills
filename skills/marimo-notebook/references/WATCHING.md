@@ -50,6 +50,6 @@ The reloader tracks changes recursively through the import chain.
 
 Use case: develop logic in Python modules, use the notebook as an orchestrating DAG.
 
-## Autosave
+## Responding to other files
 
-Make sure autosave is enabled in User Settings → Editor → Autosave for the best watch experience.
+marimo has `mo.watch.file` and `mo.watch.file` utilities that can cause cells to update when a file/folder updates. 
