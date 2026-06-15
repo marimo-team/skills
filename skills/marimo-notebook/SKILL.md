@@ -268,6 +268,7 @@ pytest <notebook.py>
 
 ## Additional resources
 
+- For marimo notebooks that run in width=columns [SQL.md](references/COLUMNS.md)
 - For SQL use in marimo see [SQL.md](references/SQL.md)
 - For UI elements in marimo [UI.md](references/UI.md)
 - For exposing functions/classes as top level imports [TOP-LEVEL-IMPORTS.md](references/TOP-LEVEL-IMPORTS.md)
