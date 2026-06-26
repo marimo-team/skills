@@ -11,7 +11,7 @@ For general marimo notebook conventions (cell structure, PEP 723 metadata, outpu
 
 1. **Read the Streamlit app** to understand its widgets, layout, and state management.
 
-2. **Create a new marimo notebook** following the `marimo-notebook` skill conventions. Add all dependencies the Streamlit app uses (pandas, plotly, altair, etc.) — but replace `streamlit` with `marimo`. You should not overwrite the original file. 
+2. **Create a new marimo notebook** following the `marimo-notebook` skill conventions. Add all dependencies the Streamlit app uses (pandas, plotly, altair, etc.) — but replace `streamlit` with `marimo`. You should not overwrite the original file.
 
 3. **Map Streamlit components to marimo equivalents** using the reference tables below. Key principles:
    - UI elements are **assigned to variables** and their current value is accessed via `.value`.
@@ -115,10 +115,10 @@ Marimo offers two approaches for multi-page Streamlit apps:
 - **Single notebook with routing**: Use `mo.routes` with `mo.nav_menu` or `mo.sidebar` to build multiple "pages" (tabs/routes) inside one notebook.
 - **Multiple notebooks as a gallery**: Run a folder of notebooks with `marimo run folder/` to serve them as a gallery with navigation.
 
-### Deploying 
+### Deploying
 
-marimo features molab to host marimo apps instead of the streamlit community cloud. You can generate an "open in molab" button via the `add-molab-badge` skill. 
+marimo features molab to host marimo apps instead of the streamlit community cloud. You can generate an "open in molab" button via the `add-molab-badge` skill.
 
-### Custom components 
+### Custom components
 
-streamlit has a feature for custom components. These are not compatible with marimo. You might be able to generate an equivalent anywidget via the `marimo-anywidget` skill but discuss this with the user before working on that. 
+streamlit has a feature for custom components. These are not compatible with marimo. You might be able to generate an equivalent anywidget via the `marimo-anywidget` skill but discuss this with the user before working on that.

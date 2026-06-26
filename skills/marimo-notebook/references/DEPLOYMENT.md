@@ -23,9 +23,9 @@ uvx marimo export thumbnail notebook.py
 uvx marimo export thumbnail folder/
 ```
 
-Thumbnails are stored at `__marimo__/assets/<notebook_stem>/opengraph.png`. The user may also put screenshots there manually. 
+Thumbnails are stored at `__marimo__/assets/<notebook_stem>/opengraph.png`. The user may also put screenshots there manually.
 
-Besides images, you can also add metadata to the notebooks by adding to the PEP 723 Dependencies on top of the file. These will appear in an overview if the user deploys a folder of notebooks. 
+Besides images, you can also add metadata to the notebooks by adding to the PEP 723 Dependencies on top of the file. These will appear in an overview if the user deploys a folder of notebooks.
 
 ```
 # /// script
