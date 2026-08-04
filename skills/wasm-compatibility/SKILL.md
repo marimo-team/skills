@@ -58,10 +58,28 @@ Output a clear, actionable report:
 - Replace an incompatible package with a WASM-friendly alternative
 - Rewrite an incompatible code pattern
 
-For a package that has no WASM build at all (`torch`, `tensorflow`, `jax`), there is no drop-in replacement. Two escape hatches exist, and they solve different problems — check which one the notebook actually needs:
+For a package with no WASM build, there is no drop-in replacement. Two escape hatches exist, and they solve different problems — check which one the notebook actually needs:
 
-1. **The result only needs to be shown, not recomputed live.** Mark the package `sys_platform != 'emscripten'` in the PEP 723 dependencies, enable `cache_cells = true`, and export with `marimo export html-wasm --execute`. The computation runs once server-side, and the result is bundled into the export. See [cached WASM export](https://docs.marimo.io/guides/exporting/webassembly_html/#exporting-with-cached-execution). This is enough for a static plot or a one-off training run whose output the notebook only displays.
-2. **The result needs to be callable in the browser** (a slider driving live inference, for example). Caching the raw object is not enough here: calling a cached `torch`/`jax` object reruns its defining cell live, which fails without the package. Instead, convert the model to a portable runtime and cache that. [`moutils.onnx.OnnxRuntime`](https://github.com/marimo-team/moutils/commit/a3a6651bd400429ddb416351aaec54b97535a069) does this for PyTorch and JAX: it exports the model to ONNX, and the runtime it returns runs inference with `onnxruntime-web` in the browser instead of the original framework.
+1. **Precompute every reachable result and cache it.** Exclude the package from WASM with a `sys_platform != 'emscripten'` marker. marimo then runs the real computation once, server-side, and bundles the result into the export:
+
+   ```toml
+   # /// script
+   # dependencies = [
+   #     "marimo",
+   #     "torch; sys_platform != 'emscripten'",
+   # ]
+   #
+   # [tool.marimo.runtime]
+   # cache_cells = true
+   # ///
+   ```
+
+   ```bash
+   marimo export html-wasm notebook.py -o output_dir --execute
+   ```
+
+   This covers a single static result (a plot, a one-off computation) directly. For a small, enumerable set of results — a dropdown or slider over a fixed list of options — decorate the computation with `@mo.persistent_cache(method="lazy")` instead. Add a cell that calls it once for every option before export. See [caching precomputed values](https://docs.marimo.io/guides/exporting/webassembly_html/#precomputed-values). Either way, the excluded package never runs in the browser — the notebook only reads its cached result.
+2. **Use a compatibility layer that runs the real computation in the browser.** Precomputing does not cover an input space that cannot be enumerated ahead of time — a slider driving live inference over a continuous range, for example. The notebook needs an actual WASM-native implementation of the computation here. [`moutils.onnx.OnnxRuntime`](https://github.com/marimo-team/moutils/commit/a3a6651bd400429ddb416351aaec54b97535a069) is one example of this pattern: it converts a PyTorch or JAX model to ONNX, and the object it returns runs inference with `onnxruntime-web` in the browser instead of the original framework.
 
 ## Additional context
 
