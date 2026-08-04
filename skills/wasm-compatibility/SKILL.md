@@ -29,7 +29,7 @@ If `marimo` is not available, install it first: `pip install marimo`, or run it 
 
 **Caveat:** MW001 flags import statements (`from multiprocessing import Lock`, `import multiprocessing.synchronize`), not later attribute access. A bare `import multiprocessing` followed by `multiprocessing.Lock()` deeper in the code can slip through. For notebooks with concurrency code, skim for this by hand too.
 
-**Caveat:** a clean MW003 result does not by itself mean a package is safe to use in the browser. If a notebook marks a package `sys_platform != 'emscripten'`, MW003 skips it entirely — that only tells you the package will not be *installed* in WASM, not that the notebook is free to use it. Check whether the notebook also has `cache_cells = true` and was exported with `--execute` (see step 3). If so, the excluded package can still be used, through caching. If not, any code path that imports or touches the excluded package will fail in the browser, and MW003 will not have warned about it.
+**Caveat:** a clean MW003 result does not by itself mean a package is safe to use in the browser. If a notebook marks a package `sys_platform != 'emscripten'`, MW003 skips it entirely — that only tells you the package will not be *installed* in WASM, not that the notebook is free to use it. Check whether the notebook also has `cache_cells = true` and was exported with `--execute` (see step 4). If so, the excluded package can still be used, through caching. If not, any code path that imports or touches the excluded package will fail in the browser, and MW003 will not have warned about it.
 
 ### 3. Check what the linter does not cover
 
