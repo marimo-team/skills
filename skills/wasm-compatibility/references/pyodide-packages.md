@@ -71,3 +71,11 @@ These popular packages have C/native extensions not built for Pyodide:
 | psutil | OS-level syscalls | None for WASM |
 | gevent | C extensions | `asyncio` |
 | celery | Requires message broker | Not applicable in browser |
+
+`torch`, `tensorflow`, and `jax` have no live WASM build. A notebook can
+still use them: run the computation server-side with marimo's [cached
+execution](https://docs.marimo.io/api/caching/#automatic-cell-caching)
+enabled. Then export with `marimo export html-wasm --execute`. The result
+gets bundled into the export, so the exported notebook restores it from
+cache instead of running the original framework in the browser. See
+[cached WASM exports](https://docs.marimo.io/guides/exporting/webassembly_html/#exporting-with-cached-execution).

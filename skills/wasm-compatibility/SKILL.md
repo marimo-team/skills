@@ -13,128 +13,62 @@ Check whether a marimo notebook can run in a WebAssembly (WASM) environment — 
 
 Read the target notebook file. If the user doesn't specify one, ask which notebook to check.
 
-### 2. Extract dependencies
+### 2. Run marimo's WASM lint rules
 
-Collect every package the notebook depends on from **both** sources:
+marimo ships three lint rules that catch most WASM incompatibilities automatically. Run them first, and build the report from their output instead of re-deriving these checks by hand:
 
-- **PEP 723 metadata** — the `# /// script` block at the top:
-  ```python
-  # /// script
-  # dependencies = [
-  #     "marimo",
-  #     "torch>=2.0.0",
-  # ]
-  # ///
-  ```
-- **Import statements** — scan all cells for `import foo` and `from foo import bar`. Map import names to their PyPI distribution name using this table:
+```bash
+marimo check <notebook> --select MW --format json
+```
 
-  | Import name | Distribution name |
-  |---|---|
-  | `sklearn` | `scikit-learn` |
-  | `skimage` | `scikit-image` |
-  | `cv2` | `opencv-python` |
-  | `PIL` | `Pillow` |
-  | `bs4` | `beautifulsoup4` |
-  | `yaml` | `pyyaml` |
-  | `dateutil` | `python-dateutil` |
-  | `attr` / `attrs` | `attrs` |
-  | `gi` | `PyGObject` |
-  | `serial` | `pyserial` |
-  | `usb` | `pyusb` |
-  | `wx` | `wxPython` |
+If `marimo` is not available, install it first: `pip install marimo`, or run it via `uvx marimo check ...`.
 
-  For most other packages, the import name matches the distribution name.
+- **MW001** `incompatible-import` — stdlib modules missing or non-functional in Pyodide (`subprocess`, `pdb`, `dbm`, `resource`, `fcntl`, `termios`, `readline`, `curses`, `tkinter`, `pydecimal`, `test`), plus multiprocessing exports and submodules that need native synchronization, shared memory, pipes, or process forking (`Lock`, `Condition`, `Semaphore`, `Barrier`, `Manager`, `Pipe`, `RLock`, `shared_memory`, `ForkContext`/`ForkProcess`, `ThreadPool`, and others). `Process`, `Queue`, `SimpleQueue`, `Pool`, and `ProcessPoolExecutor` stay allowed — they run on WASM-compatible cooperative adapters (see step 3).
+- **MW002** `unsafe-system-call` — calls such as `os.system()`, `os.fork()`, `signal.signal()`, `breakpoint()` that fail in Pyodide even when the import itself succeeds.
+- **MW003** `incompatible-package` — resolves the notebook's PEP 723 dependency tree (skipping anything excluded by a `sys_platform != 'emscripten'` marker) and checks PyPI for a WASM-compatible wheel, catching cases like `jaxlib` pulled in transitively through `jax`.
 
-### 3. Check each package against Pyodide
+**Caveat:** MW001 flags import statements (`from multiprocessing import Lock`, `import multiprocessing.synchronize`), not later attribute access. A bare `import multiprocessing` followed by `multiprocessing.Lock()` deeper in the code can slip through. For notebooks with concurrency code, skim for this by hand too.
 
-For each dependency, determine if it can run in WASM:
+**Caveat:** a clean MW003 result does not by itself mean a package is safe to use in the browser. If a notebook marks a package `sys_platform != 'emscripten'`, MW003 skips it entirely — that only tells you the package will not be *installed* in WASM, not that the notebook is free to use it. Check whether the notebook also has `cache_cells = true` and was exported with `--execute` (see step 3). If so, the excluded package can still be used, through caching. If not, any code path that imports or touches the excluded package will fail in the browser, and MW003 will not have warned about it.
 
-1. **Is it in the Python standard library?** Most stdlib modules work, but these do **not**:
-   - `multiprocessing` — browser sandbox has no process spawning
-   - `subprocess` — same reason
-   - `threading` — emulated, no real parallelism (WARN, not a hard fail)
-   - `sqlite3` — use `apsw` instead (available in Pyodide)
-   - `pdb` — not supported
-   - `tkinter` — no GUI toolkit in browser
-   - `readline` — no terminal in browser
+### 3. Check what the linter does not cover
 
-2. **Is it a Pyodide built-in package?** See [pyodide-packages.md](references/pyodide-packages.md) for the full list. These work out of the box.
+These stay manual, agent-driven checks:
 
-3. **Is it a pure-Python package?** Packages with only `.py` files (no compiled C/Rust extensions) can be installed at runtime via `micropip` and will work. To check: look for a `py3-none-any.whl` wheel on PyPI (e.g. visit `https://pypi.org/project/<package>/#files`). If the only wheels are platform-specific (e.g. `cp312-cp312-manylinux`), the package has native extensions and likely won't work.
+- **PEP 723 metadata.** If the notebook has no `# /// script` block, or imports a package that is not listed in `dependencies`, WARN. Without that metadata, packages do not auto-install when the notebook starts in WASM. Version pins and lower bounds are fine — marimo strips version constraints when running in WASM.
+- **Runtime-only patterns.** Static lint does not catch these: reading environment variables (`os.environ`, `os.getenv`), hard-coded absolute file paths or `Path.home()`/`Path.cwd()` expecting a real filesystem, and large in-memory datasets (WASM notebooks are capped at 2GB). Flag these where you see them.
+- **Concurrency semantics.** WASM notebooks run cooperative adapters for `threading.Thread`, `Event`, `local`, `ThreadPoolExecutor`, `wait`, `as_completed`, and process-shaped `multiprocessing.Process`, `Queue`, `SimpleQueue`, `Pool`, `ProcessPoolExecutor`. The API shape is real, but there are no OS threads, no shared memory, and no true parallelism. Everything runs one task at a time in the single Pyodide interpreter. If the notebook relies on actual concurrent speedup rather than the API shape alone, warn that it runs correctly but sequentially.
+- **Cached execution already in place.** Check the notebook's `pyproject.toml` (or inline `# /// script` block) for `[tool.marimo.runtime] cache_cells = true`. If it is set, an incompatible package marked `sys_platform != 'emscripten'` is not automatically a FAIL — see the escape hatches in step 4.
 
-   Common pure-Python packages that work (not in Pyodide built-ins but installable via micropip):
-   - `plotly`, `seaborn`, `humanize`, `pendulum`, `arrow`, `tabulate`
-   - `dataclasses-json`, `marshmallow`, `cattrs`, `pydantic` (built-in)
-   - `httpx` (built-in), `tenacity`, `backoff`, `wrapt` (built-in)
+### 4. Produce the report
 
-4. **Does it have C/native extensions not built for Pyodide?** These will **not** work. Common culprits:
-   - `torch` / `pytorch`
-   - `tensorflow`
-   - `jax` / `jaxlib`
-   - `psycopg2` (suggest `psycopg` with pure-Python mode)
-   - `mysqlclient` (suggest `pymysql`)
-   - `uvloop`
-   - `grpcio`
-   - `psutil`
-
-### 4. Check for WASM-incompatible patterns
-
-Scan the notebook code for patterns that won't work in WASM:
-
-| Pattern | Why it fails | Suggestion |
-|---|---|---|
-| `subprocess.run(...)`, `os.system(...)`, `os.popen(...)` | No process spawning in browser | Remove or gate behind a non-WASM check |
-| `multiprocessing.Pool(...)`, `ProcessPoolExecutor` | No process forking | Use single-threaded approach |
-| `threading.Thread(...)`, `ThreadPoolExecutor` | Emulated threads, no real parallelism | WARN only — works but no speedup; use `asyncio` for I/O |
-| `open("/absolute/path/...")`, hard-coded local file paths | No real filesystem; only in-memory fs | Fetch data via URL (`httpx`, `urllib`) or embed in notebook |
-| `sqlite3.connect(...)` | stdlib sqlite3 unavailable | Use `apsw` or `duckdb` |
-| `pdb.set_trace()`, `breakpoint()` | No debugger in WASM | Remove breakpoints |
-| Reading env vars (`os.environ[...]`, `os.getenv(...)`) | Environment variables not available in browser | Use `mo.ui.text` for user input or hardcode defaults |
-| `Path.home()`, `Path.cwd()` with real file expectations | Virtual filesystem only | Use URLs or embedded data |
-| Large dataset loads (>100 MB) | 2 GB total memory cap | Use smaller samples or remote APIs |
-
-### 5. Check PEP 723 metadata
-
-WASM notebooks should list all dependencies in the PEP 723 `# /// script` block so they are automatically installed when the notebook starts. Check for these issues:
-
-- **Missing metadata:** If the notebook has no `# /// script` block, emit a WARN recommending one. Listing dependencies ensures they are auto-installed when the notebook starts in WASM — without it, users may see import errors.
-- **Missing packages:** If a package is imported but not listed in the dependencies, emit a WARN suggesting it be added.
-Note: version pins and lower bounds in PEP 723 metadata are fine — marimo strips version constraints when running in WASM.
-
-### 6. Produce the report
-
-Output a clear, actionable report with these sections:
+Output a clear, actionable report:
 
 **Compatibility: PASS / FAIL / WARN**
 
-Use these verdicts:
-- **PASS** — all packages and patterns are WASM-compatible
-- **WARN** — likely compatible, but some packages could not be verified as pure-Python (list them so the user can check)
-- **FAIL** — one or more packages or patterns are definitely incompatible
+- **PASS** — the lint check and step 3 both found nothing.
+- **WARN** — nothing failed, but step 3 turned up something worth a second look (missing PEP 723 metadata, a runtime-only pattern, or concurrency that will run but not in parallel).
+- **FAIL** — the lint check reported a diagnostic, or step 3 found something that will not run at all.
 
-**Package Report** — table with columns: Package, Status (OK / WARN / FAIL), Notes
+**Lint findings** — paste the diagnostics from step 2 verbatim (file, line, code, message).
 
-Example:
-| Package | Status | Notes |
-|---|---|---|
-| marimo | OK | Available in WASM runtime |
-| numpy | OK | Pyodide built-in |
-| pandas | OK | Pyodide built-in |
-| torch | FAIL | No WASM build — requires native C++/CUDA extensions |
-| my-niche-lib | WARN | Not in Pyodide; verify it is pure-Python |
+**Manual findings** — list anything from step 3, with the cell or line and a suggested fix.
 
-**Code Issues** — list each problematic code pattern found, with the cell or line and a suggested fix.
+**Recommendations** — for FAIL/WARN notebooks, suggest concrete fixes:
+- Replace an incompatible package with a WASM-friendly alternative
+- Rewrite an incompatible code pattern
 
-**Recommendations** — if the notebook fails, suggest concrete fixes:
-- Replace incompatible packages with WASM-friendly alternatives
-- Rewrite incompatible code patterns
-- Suggest moving heavy computation to a hosted API and fetching results
+For a package that has no WASM build at all (`torch`, `tensorflow`, `jax`), there is no drop-in replacement. Two escape hatches exist, and they solve different problems — check which one the notebook actually needs:
+
+1. **The result only needs to be shown, not recomputed live.** Mark the package `sys_platform != 'emscripten'` in the PEP 723 dependencies, enable `cache_cells = true`, and export with `marimo export html-wasm --execute`. The computation runs once server-side, and the result is bundled into the export. See [cached WASM export](https://docs.marimo.io/guides/exporting/webassembly_html/#exporting-with-cached-execution). This is enough for a static plot or a one-off training run whose output the notebook only displays.
+2. **The result needs to be callable in the browser** (a slider driving live inference, for example). Caching the raw object is not enough here: calling a cached `torch`/`jax` object reruns its defining cell live, which fails without the package. Instead, convert the model to a portable runtime and cache that. [`moutils.onnx.OnnxRuntime`](https://github.com/marimo-team/moutils/commit/a3a6651bd400429ddb416351aaec54b97535a069) does this for PyTorch and JAX: it exports the model to ONNX, and the runtime it returns runs inference with `onnxruntime-web` in the browser instead of the original framework.
 
 ## Additional context
 
 - WASM notebooks run via [Pyodide](https://pyodide.org) in the browser
-- Memory is capped at 2 GB
+- Memory is capped at 2GB
 - Network requests work but may need CORS-compatible endpoints
 - Chrome has the best WASM performance; Firefox, Edge, Safari also supported
 - `micropip` can install any pure-Python wheel from PyPI at runtime
-- For the full Pyodide built-in package list, see [pyodide-packages.md](references/pyodide-packages.md)
+- For the full list of marimo's WASM lint rules, see the [lint rules reference](https://docs.marimo.io/guides/lint_rules/#-wasm-rules)
+- For a hand-maintained snapshot of Pyodide's built-in packages, see [pyodide-packages.md](references/pyodide-packages.md). It is a quick human-readable reference, but `marimo check --select MW003` queries PyPI directly and stays current automatically
