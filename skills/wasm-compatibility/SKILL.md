@@ -21,8 +21,6 @@ marimo ships three lint rules that catch most WASM incompatibilities automatical
 marimo check <notebook> --select MW --format json
 ```
 
-If `marimo` is not available, install it first: `pip install marimo`, or run it via `uvx marimo check ...`.
-
 - **MW001** `incompatible-import` — stdlib modules missing or non-functional in Pyodide (`subprocess`, `pdb`, `dbm`, `resource`, `fcntl`, `termios`, `readline`, `curses`, `tkinter`, `pydecimal`, `test`), plus multiprocessing exports and submodules that need native synchronization, shared memory, pipes, or process forking (`Lock`, `Condition`, `Semaphore`, `Barrier`, `Manager`, `Pipe`, `RLock`, `shared_memory`, `ForkContext`/`ForkProcess`, `ThreadPool`, and others). `Process`, `Queue`, `SimpleQueue`, `Pool`, and `ProcessPoolExecutor` stay allowed — they run on WASM-compatible cooperative adapters (see step 3).
 - **MW002** `unsafe-system-call` — calls such as `os.system()`, `os.fork()`, `signal.signal()`, `breakpoint()` that fail in Pyodide even when the import itself succeeds.
 - **MW003** `incompatible-package` — resolves the notebook's PEP 723 dependency tree (skipping anything excluded by a `sys_platform != 'emscripten'` marker) and checks PyPI for a WASM-compatible wheel, catching cases like `jaxlib` pulled in transitively through `jax`.
