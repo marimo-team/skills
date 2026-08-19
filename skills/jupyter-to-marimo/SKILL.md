@@ -5,38 +5,48 @@ description: Convert a Jupyter notebook (.ipynb) to a marimo notebook (.py).
 
 # Converting Jupyter Notebooks to Marimo
 
-**IMPORTANT**: When asked to translate a notebook, ALWAYS run `uvx marimo convert <notebook.ipynb> -o <notebook.py>` FIRST before reading any files. This saves precious tokens - reading large notebooks can consume 30k+ tokens, while the converted .py file is much smaller and easier to work with.
+## Convert first
 
-## Steps
-
-1. **Convert using the CLI**
-
-Run the marimo convert command via `uvx` so no install is needed:
+**Important:** Run the converter before you read the source notebook:
 
 ```bash
 uvx marimo convert <notebook.ipynb> -o <notebook.py>
 ```
 
-This generates a marimo-compatible `.py` file from the Jupyter notebook.
+Read the `.ipynb` file only if conversion fails or the generated file omits required information. Treat the generated file as a first draft.
 
-2. **Run `marimo check` on the output**
+Run this command after conversion and after substantial edits:
 
 ```bash
 uvx marimo check <notebook.py>
 ```
 
-Fix any issues that are reported before continuing.
+## Review the conversion
 
-3. **Review and clean up the converted notebook**
+- Verify all required packages in the PEP 723 metadata. The converter can miss some package-installation forms.
+- Remove residual installation cells and stale installation prose. Add version constraints only when required.
+- Use `--sandbox` when a notebook uses PEP 723 metadata.
+- Preserve the purpose and intended workflow of the source notebook.
+- Arrange cells for presentation. marimo determines execution order from variable definitions and references.
+- A cell can appear before a cell that defines its input.
+- Merge or split cells when the current boundaries reduce clarity.
+- Remove redundant Jupyter artifacts, such as unnecessary `display()` calls.
+- Review converted magic commands. Keep valid conversions, and resolve comments that report unsupported magics.
+- Put the value to render in the final expression of each cell.
+- Keep added UI and helper functions proportional to the notebook purpose.
+- Replace interactive input methods that wait for terminal input or do not work in the target interface. Use suitable UI controls, script parameters, or environment values.
+- Do not print, log, or save secrets. Consider [EnvConfig](https://koaning.github.io/wigglystuff/reference/env-config.md) for multiple environment values.
+- Identify expensive work and external side effects. If work must wait, gate it with `mo.stop()` and a suitable UI element.
+- Use a form if the user must submit multiple values together.
+- Define downstream values after the gate so the dependency graph defers dependent cells.
+- Present useful results with simple native components. Add live refresh only when the intended workflow requires it.
+- For ipywidgets, read [`references/widgets.md`](references/widgets.md).
+- For LaTeX and MathJax, read [`references/latex.md`](references/latex.md).
 
-Read the generated `.py` file and apply the following improvements:
+## Validate the result
 
-- Ensure the script metadata block lists all required packages. The converter may miss some.
-- Drop leftover Jupyter artifacts like `display()` calls, or `%magic` commands that don't apply in marimo.
-- Make sure the final expression of each cell is the value to render. Indented or conditional expressions won't display.
-- If the original notebook requires environment variables via an input, consider adding the `EnvConfig` widget from wigglystuff. Details can be found [here](https://koaning.github.io/wigglystuff/reference/env-config.md).
-- If the original notebook uses ipywidgets, see `references/widgets.md` for a full mapping of ipywidgets to marimo equivalents, including patterns for callbacks, linking, and anywidget integration.
-- If the notebook contains LaTeX, see `references/latex.md` for how to port MathJax syntax to KaTeX (which marimo uses).
-
-4. **Run `marimo check` again** after your edits to confirm nothing was broken.
-
+- **Run `marimo check` again** after all edits.
+- Run the notebook in each intended mode. Confirm that it has the intended behavior.
+- When practical, open the source and converted notebooks side by side and invite the user to review.
+- Compare content, controls, outputs, and workflow. Cell order and layout can differ.
+- Inspect changed files for secrets, generated data, caches, logs, and other runtime files.
