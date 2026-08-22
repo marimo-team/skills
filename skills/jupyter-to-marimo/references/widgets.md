@@ -64,7 +64,7 @@ Jupyter uses **ipywidgets** with imperative callbacks (`observe`, `link`, `jslin
 
 ## Replacing `interact` / `interactive`
 
-ipywidgets `interact` auto-generates UI from a function signature. In marimo, just create the UI elements and use their values. 
+ipywidgets `interact` auto-generates UI from a function signature. In marimo, just create the UI elements and use their values.
 
 Reactivity is automatic:
 

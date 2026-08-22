@@ -41,7 +41,7 @@ widget
 print(widget.value["number"])
 </example>
 
-The above is a minimal example that could work for a simple counter widget. In general the widget can become much larger because of all the JavaScript and CSS required. Unless the widget is dead simple, you should consider using external files for `_esm` and `_css` using pathlib. 
+The above is a minimal example that could work for a simple counter widget. In general the widget can become much larger because of all the JavaScript and CSS required. Unless the widget is dead simple, you should consider using external files for `_esm` and `_css` using pathlib.
 
 When sharing the anywidget, keep the example minimal. No need to combine it with marimo ui elements unless explicitly stated to do so.
 

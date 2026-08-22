@@ -45,7 +45,7 @@ def _(mo):
 
 @app.cell
 def _():
-    # This cell is in column 2 
+    # This cell is in column 2
     import marimo as mo
 
     return (mo,)

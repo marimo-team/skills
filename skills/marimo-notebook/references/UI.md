@@ -1,4 +1,4 @@
-marimo has a rich set of UI components. 
+marimo has a rich set of UI components.
 
 * `mo.ui.altair_chart(altair_chart)` - create a reactive Altair chart
 * `mo.ui.button(value=None, kind='primary')` - create a clickable button
@@ -23,7 +23,7 @@ marimo has a rich set of UI components.
 * `mo.ui.array(elements: list[mo.ui.Element])` - create an array of UI elements
 * `mo.ui.form(element: mo.ui.Element, label='', bordered=True)` - wrap an element in a form
 
-As always, you can learn more about the available inputs to all these components via `uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"` 
+As always, you can learn more about the available inputs to all these components via `uv --with marimo run python -c "import marimo as mo; help(mo.ui.form)"`
 
 ## Forms
 
@@ -79,9 +79,9 @@ group_by_form = mo.ui.dropdown(
 )
 ```
 
-However, the user may also want to use other components. Popular alternatives include the `ScatterWidget` from the `drawdata` library, `moutils`, and `wigglystuff`. 
+However, the user may also want to use other components. Popular alternatives include the `ScatterWidget` from the `drawdata` library, `moutils`, and `wigglystuff`.
 
-For custom classes and static HTML representations you can also use the `_display_` method. 
+For custom classes and static HTML representations you can also use the `_display_` method.
 
 ```python
 class Dice:
