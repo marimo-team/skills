@@ -10,6 +10,8 @@ Current shared references:
 | Source | Copied to |
 |--------|-----------|
 | `skills/anywidget/SKILL.md` | `skills/marimo-notebook/references/ANYWIDGET.md` |
+| `skills/anywidget/SKILL.md` | `skills/auto-paper-demo/references/ANYWIDGET.md` |
+| `skills/anywidget/SKILL.md` | `skills/implement-paper-auto/references/ANYWIDGET.md` |
 | `skills/anywidget/SKILL.md` | `skills/implement-paper/references/anywidget.md` |
 
 After editing `skills/anywidget/SKILL.md`, run:
